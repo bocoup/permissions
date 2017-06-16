@@ -41,7 +41,18 @@ spec: mediacapture-main; urlPrefix: https://w3c.github.io/mediacapture-main/#
 spec: sensors; urlPrefix: https://w3c.github.io/sensors/#
     type: dfn
         text: generic sensor permission revocation algorithm; url: generic-sensor-permission-revocation-algorithm
-
+spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
+    type: dfn
+        text: error; url: dfn-error
+        text: error code; url: dfn-error-code
+        text: getting the property; url: dfn-getting-a-property
+        text: invalid argument; url: dfn-invalid-argument
+        text: extension command; url: dfn-extension-commands
+        text: extension command name; url: dfn-extension-command-name
+        text: extension command prefix; url: dfn-extension-command-prefix
+        text: remote end steps; url: dfn-remote-end-steps
+        text: success; url: dfn-success
+        text: trying; url: dfn-trying
 </pre>
 <pre class="link-defaults">
 spec: dom
@@ -1072,6 +1083,221 @@ spec: webidl
       permission is the permission associated with the usage of the
       asynchronous methods in the [[clipboard-apis]].
     </p>
+  </section>
+</section>
+<section>
+  <h2 id="automation">
+    Automation
+  </h2>
+  <p>
+    For the purposes of user-agent automation and application testing, this
+    document defines the following <a>errors</a>, algorithms, and <a>extension
+    commands</a> for the [[WebDriver]] specification.
+  </p>
+
+  The <dfn>no such request</dfn> <a>error</a> has a [=response/status=] of 404
+  and an a JSON error code of `"no such request"`.
+
+  <div algorithm="detect-pending-request">
+    <p>
+      To <dfn lt="detect a pending request">detect a pending request</dfn>
+      for a JSON object |permissionDesc| and string |type|, the UA must perform
+      the following steps.
+    </p>
+    <ol>
+      <li>Let |rootDesc| be the object |permissionDesc| refers to, <a>converted
+      to an IDL value</a> of type {{PermissionDescriptor}}. If this throws an
+      exception, return <a>error</a> with <a>error code</a> <a>invalid
+      argument</a>.</li>
+      <li>Let |typedDescriptor| be the object |permissionDesc| refers to,
+      <a>converted to an IDL value</a> of
+      <code>|rootDesc|.{{PermissionDescriptor/name}}</code>'s <a>permission
+      descriptor type</a>. If this throws an exception, return <a>error</a>
+      with <a>error code</a> <a>invalid argument</a>.</li>
+      <li>If |type| is "`use`":
+        <ol>
+          <li>*EachUseRequest*: For each <a>request permission to use</a>
+            operation that is awaiting user input:
+            <ol>
+              <li>Let |pendingDescriptor| be the {{PermissionDescriptor}}
+                associated with the request.</li>
+              <li>[=map/For each=] |key| → |value| of |pendingDescriptor|:
+                <ol>
+                  <li>If |typedDescriptor|[|key|] does not equal |value|, continue
+                  to the next iteration of the loop labeled
+                  *EachUseRequest*.</li>
+                </ol>
+              </li>
+              <li>Return true.</li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>Else:
+        <ol>
+          <li class="assertion">Assert: |type| is "`choose`".
+          <li>*EachChooseRequest*: For each <a>prompt the user to choose</a>
+          operation that is awaiting user input:
+            <ol>
+              <li>Let |pendingDescriptor| be the {{PermissionDescriptor}}
+                associated with the request.</li>
+              <li>[=map/For each=] |key| → |value| of |pendingDescriptor|:
+                <ol>
+                  <li>If |typedDescriptor|[|key|] does not equal |value|, continue
+                  to the next iteration of the loop labeled
+                  *EachChooseRequest*.</li>
+                </ol>
+              </li>
+              <li>Return true.</li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>Return false.
+    </ol>
+  </div>
+
+  <section>
+    <h3 id="grant-command">
+      Grant
+    </h3>
+    <table>
+      <tbody>
+        <tr>
+          <th>HTTP Method</th>
+          <th><a lt="extension command prefix">Prefix</a></th>
+          <th><a lt="extension command name">Name</a></th>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>permissions</td>
+          <td>grant</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The <dfn>Grant</dfn> <a>extension command</a> simulates user acceptance
+    of a permission request as initiated by <a>request permission to
+    use</a>.</p>
+    <p>The <a>remote end steps</a> are:</p>
+    <ol>
+      <li>Let |permissionDesc| be the result of <a>getting the property</a>
+      "`descriptor`" from the |parameters| argument.</li>
+      <li>If |permissionDesc| is not a JSON object, return <a>error</a> with
+      <a>error code</a> <a>invalid argument</a>.
+      <li>Let |oneRealm| be the result of <a>getting the property</a>
+      "`oneRealm`" from the |parameters| argument.</a>
+      <li>If |oneRealm| is `undefined`, let |oneRealm| be false.</li>
+      <li>If |oneRealm| is neither true nor false, return <a>error</a> with
+      <a>error code</a> <a>invalid argument</a>.
+      <li>Let |hasRequest| be the result of <a>trying</a> to <a>detect a
+      pending request</a> with arguments |permissionDesc| and "`use`".
+      <li>If |hasRequest| is false, return <a>error</a> with <a>error code</a>
+      <a>no such request</a>.</li>
+      <li>Take whatever implementation-defined steps are necessary to simulate
+      user acceptance of the request identified in step 6 of this
+      algorithm. If |oneRealm| is false, this should be interpreted as <a>new
+      information about the user's intent</a> for other <a>realms</a> with the
+      <a>same origin</a>.</li>
+      <li>Return <a>success</a> with data `null`.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h3 id="choose-command">
+      Choose
+    </h3>
+    <table>
+      <tbody>
+        <tr>
+          <th>HTTP Method</th>
+          <th><a lt="extension command prefix">Prefix</a></th>
+          <th><a lt="extension command name">Name</a></th>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>permissions</td>
+          <td>choose</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The <dfn>Choose</dfn> <a>extension command</a> simulates user selection
+    of a value in an active permissions request as initiated by <a>prompt the
+    user to choose</a>.</p>
+    <p>The <a>remote end steps</a> are:</p>
+    <ol>
+      <li>Let |permissionDesc| be the result of <a>getting the property</a>
+      "`descriptor`" from the |parameters| argument.</li>
+      <li>If |permissionDesc| is not a JSON object, return <a>error</a> with
+      <a>error code</a> <a>invalid argument</a>.
+      <li>Let |oneRealm| be the result of <a>getting the property</a>
+      "`oneRealm`" from the |parameters| argument.</a>
+      <li>If |oneRealm| is `undefined`, let |oneRealm| be false.</li>
+      <li>If |oneRealm| is neither true nor false, return <a>error</a> with
+      <a>error code</a> <a>invalid argument</a>.
+      <li>Let |choice| be the result of <a>getting the property</a> "`choice`"
+      from the |parameters| argument.</li>
+      <li>Let |hasRequest| be the result of <a>trying</a> to <a>detect a
+      pending request</a> with arguments |permissionDesc| and "`choose`".
+      <li>If |hasRequest| is false, return <a>error</a> with <a>error code</a>
+      <a>no such request</a>.</li>
+      <li>If |choice| is not among the <var ignore>options</var> associated
+      with the request identified in step 7 of this algorithm, return
+      <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
+      <li>Take whatever implementation-defined steps are necessary to simulate
+      user selection of the value |choice| for the request identified in step 7
+      of this algorithm. If |oneRealm| is false, this should be interpreted as
+      <a>new information about the user's intent</a> for other <a>realms</a>
+      with the <a>same origin</a>.</li>
+      <li>Return <a>success</a> with data `null`.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h3 id="deny-command">
+      Deny
+    </h3>
+    <table>
+      <tbody>
+        <tr>
+          <th>HTTP Method</th>
+          <th><a lt="extension command prefix">Prefix</a></th>
+          <th><a lt="extension command name">Name</a></th>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>permissions</td>
+          <td>deny</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>The <dfn>Deny</dfn> <a>extension command</a> simulates user denial of an
+    active permissions request as initiated by <a>request permission to use</a>
+    or <a>prompt the user to choose</a>.</p>
+    <p>The <a>remote end steps</a> are:</p>
+    <ol>
+      <li>Let |permissionDesc| be the result of <a>getting the property</a>
+      "`descriptor`" from the |parameters| argument.</li>
+      <li>If |permissionDesc| is not a JSON object, return <a>error</a> with
+      <a>error code</a> <a>invalid argument</a>.
+      <li>Let |oneRealm| be the result of <a>getting the property</a>
+      "`oneRealm`" from the |parameters| argument.</a>
+      <li>If |oneRealm| is `undefined`, let |oneRealm| be false.</li>
+      <li>If |oneRealm| is neither true nor false, return <a>error</a> with
+      <a>error code</a> <a>invalid argument</a>.
+      <li>Let |hasRequest| be the result of <a>trying</a> to <a>detect a
+      pending request</a> with arguments |permissionDesc| and "`use`".
+      <li>If |hasRequest| is false, let |hasRequest| be the result of
+      <a>trying</a> to <a>detect a pending request</a> with arguments
+      |permissionDesc| and "`choose`".
+      <li>If |hasRequest| is false, return <a>error</a> with <a>error code</a>
+      <a>no such request</a>.</li>
+      <li>Take whatever implementation-defined steps are necessary to simulate
+      user denial of the request identified in the previous invocation of
+      <a>detect a pending request</a>. If |oneRealm| is false, this should be
+      interpreted as <a>new information about the user's intent</a> for other
+      <a>realms</a> with the <a>same origin</a>.</li>
+      <li>Return <a>success</a> with data `null`.</li>
+    </ol>
   </section>
 </section>
 <section class='non-normative'>
