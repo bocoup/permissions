@@ -1154,7 +1154,7 @@ spec: webidl
     <div class="example">
 	  To set permission for <code>{name: {{"midi"}}, sysex: true}</code> of the
 	  <a>current browsing context</a> of the <a>session</a> with ID 23 to
-	  "`allow`", the <a>local end</a> would POST to
+	  "`granted`", the <a>local end</a> would POST to
       `/session/23/permissions/set` with the body:
 
       <pre class="lang-json">
@@ -1163,7 +1163,7 @@ spec: webidl
           "name": "midi",
           "sysex": true
         },
-        "state": "allow"
+        "state": "granted"
       }
       </pre>
     </div>
