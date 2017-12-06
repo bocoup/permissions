@@ -1110,7 +1110,7 @@ spec: webidl
         </tr>
         <tr>
           <td>POST</td>
-          <td>permissions</td>
+          <td>/session/{session id}/permissions</td>
           <td>set</td>
         </tr>
       </tbody>
