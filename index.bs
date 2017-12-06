@@ -44,8 +44,8 @@ spec: sensors; urlPrefix: https://w3c.github.io/sensors/#
 spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
     type: dfn
         text: current browsing context; url: dfn-current-browsing-context
-        text: error; url: dfn-error
-        text: error code; url: dfn-error-code
+        text: WebDriver error; url: dfn-error
+        text: WebDriver error code; url: dfn-error-code
         text: extension command; url: dfn-extension-commands
         text: extension command name; url: dfn-extension-command-name
         text: extension command prefix; url: dfn-extension-command-prefix
@@ -1121,31 +1121,32 @@ spec: webidl
     <ol>
       <li>Let |permissionDesc| be the result of <a>getting the property</a>
       "`descriptor`" from the |parameters| argument.</li>
-      <li>If |permissionDesc| is not a JSON object, return <a>error</a> with
-      <a>error code</a> <a>invalid argument</a>.</li>
+      <li>If |permissionDesc| is not a JSON object, return <a>WebDriver
+      error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.</li>
       <li>Let |rootDesc| be the object |permissionDesc| refers to, <a>converted
       to an IDL value</a> of type {{PermissionDescriptor}}. If this throws an
-      exception, return <a>error</a> with <a>error code</a> <a>invalid
-      argument</a>.</li>
+      exception, return <a>WebDriver error</a> with <a>WebDriver error code</a>
+      <a>invalid argument</a>.</li>
       <li>Let |typedDescriptor| be the object |permissionDesc| refers to,
       <a>converted to an IDL value</a> of
       <code>|rootDesc|.{{PermissionDescriptor/name}}</code>'s <a>permission
-      descriptor type</a>. If this throws an exception, return <a>error</a>
-      with <a>error code</a> <a>invalid argument</a>.</li>
+      descriptor type</a>. If this throws an exception, return <a>WebDriver
+      error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.</li>
       <li>Let |settings| be the <a>current settings object</a>.</li>
       <li>If |settings| is a <a>non-secure context</a> and
       <code>|rootDesc|.{{PermissionDescriptor/name}}</code> isn't <a>allowed in
-      non-secure contexts</a>, return <a>error</a> with <a>error code</a>
-      <a>invalid argument</a>.</li>
+      non-secure contexts</a>, return <a>WebDriver error</a> with <a>WebDriver
+      error code</a> <a>invalid argument</a>.</li>
       <li>Let |state| be the result of <a>getting the property</a> "`state`"
       from the |parameters| argument.</li>
       <li>If |state| is neither "`granted`", "`prompt`", nor "`denied`", return
-      <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
+      <a>WebDriver error</a> with <a>WebDriver error code</a> <a>invalid
+      argument</a>.</li>
       <li>Let |allRealms| be the result of <a>getting the property</a>
       "`allRealms`" from the |parameters| argument.</a></li>
       <li>If |allRealms| is `undefined`, let |allRealms| be false.</li>
-      <li>If |allRealms| is neither true nor false, return <a>error</a> with
-      <a>error code</a> <a>invalid argument</a>.</li>
+      <li>If |allRealms| is neither true nor false, return <a>WebDriver
+      error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.</li>
       <li>Interpret the value of |state| as <a>new information about the user's
       intent</a>. If |allRealms| is true, this information applies to other
       <a>realms</a> with the <a>same origin</a>.
