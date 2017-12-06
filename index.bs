@@ -1137,7 +1137,7 @@ spec: webidl
       <code>|rootDesc|.{{PermissionDescriptor/name}}</code> isn't <a>allowed in
       non-secure contexts</a>, return <a>error</a> with <a>error code</a>
       <a>invalid argument</a>.</li>
-      <li>Let |state| by the result of <a>getting the property</a> "`state`"
+      <li>Let |state| be the result of <a>getting the property</a> "`state`"
       from the |parameters| argument.</li>
       <li>If |state| is neither "`granted`", "`prompt`", nor "`denied`", return
       <a>error</a> with <a>error code</a> <a>invalid argument</a>.</li>
