@@ -1142,13 +1142,14 @@ spec: webidl
       <li>If |state| is neither "`granted`", "`prompt`", nor "`denied`", return
       <a>WebDriver error</a> with <a>WebDriver error code</a> <a>invalid
       argument</a>.</li>
-      <li>Let |allRealms| be the result of <a>getting the property</a>
-      "`allRealms`" from the |parameters| argument.</a></li>
-      <li>If |allRealms| is `undefined`, let |allRealms| be false.</li>
-      <li>If |allRealms| is neither true nor false, return <a>WebDriver
+      <li>Let |oneRealm| be the result of <a>getting the property</a>
+      "`oneRealm`" from the |parameters| argument.</a></li>
+      <li>If |oneRealm| is `undefined`, let |oneRealm| be false.</li>
+      <li>If |oneRealm| is neither true nor false, return <a>WebDriver
       error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.</li>
       <li>Interpret the value of |state| as <a>new information about the user's
-      intent</a>. If |allRealms| is true, this information applies to other
+      intent</a>. If |oneRealm| is true, this information applies only to the
+      <a>current realm</a>. Otherwise, this information applies to other
       <a>realms</a> with the <a>same origin</a>.
       <li>Return <a>success</a> with data `null`.</li>
     </ol>
