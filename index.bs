@@ -1123,38 +1123,39 @@ spec: webidl
         </tr>
       </tbody>
     </table>
-	<p>The <dfn>Set Permission</dfn> <a>extension command</a> simulates user
+    <p>The <dfn>Set Permission</dfn> <a>extension command</a> simulates user
     modification of a {{PermissionDescriptor}}'s <a>permission state</a>.</p>
     <p>The <a>remote end steps</a> are:</p>
     <ol>
       <li>Let |parameters| be the |parameters| argument, <a>converted to an IDL
-      value</a> of type {{PermissionSetParameters}}. If this throws an
-      exception, return a <a>WebDriver error</a> with <a>WebDriver error
-      code</a> <a>invalid argument</a>.
+        value</a> of type {{PermissionSetParameters}}. If this throws an
+        exception, return a <a>WebDriver error</a> with <a>WebDriver error
+        code</a> <a>invalid argument</a>.
       <li>Let |rootDesc| be
-      |parameters|.{{PermissionSetParameters/descriptor}}.</li>
+        |parameters|.{{PermissionSetParameters/descriptor}}.</li>
       <li>Let |typedDescriptor| be the object |rootDesc| refers to,
-      <a>converted to an IDL value</a> of
-      <code>|rootDesc|.{{PermissionDescriptor/name}}</code>'s <a>permission
-      descriptor type</a>. If this throws an exception, return a <a>WebDriver
-      error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.</li>
+        <a>converted to an IDL value</a> of
+        <code>|rootDesc|.{{PermissionDescriptor/name}}</code>'s <a>permission
+        descriptor type</a>. If this throws an exception, return a <a>WebDriver
+        error</a> with <a>WebDriver error code</a> <a>invalid
+        argument</a>.</li>
       <li>Let |settings| be the <a>environment settings object</a> of the
-      <a>current browsing context</a>'s <a>active document</a>.</li>
+        <a>current browsing context</a>'s <a>active document</a>.</li>
       <li>If |settings| is a <a>non-secure context</a> and
-      <code>|rootDesc|.{{PermissionDescriptor/name}}</code> isn't <a>allowed in
-      non-secure contexts</a>, return a <a>WebDriver error</a> with
-      <a>WebDriver error code</a> <a>invalid argument</a>.</li>
+        <code>|rootDesc|.{{PermissionDescriptor/name}}</code> isn't <a>allowed
+        in non-secure contexts</a>, return a <a>WebDriver error</a> with
+        <a>WebDriver error code</a> <a>invalid argument</a>.</li>
       <li>Interpret |parameters|.{{PermissionSetParameters/state}} as <a>new
-      information about the user's intent</a>. If
-      |parameters|.{{PermissionSetParameters/oneRealm}} is true, this
-      information applies only to the <a>current realm</a>. Otherwise, this
-      information applies to other <a>realms</a> with the <a>same origin</a>.
+        information about the user's intent</a>. If
+        |parameters|.{{PermissionSetParameters/oneRealm}} is true, this
+        information applies only to the <a>current realm</a>. Otherwise, this
+        information applies to other <a>realms</a> with the <a>same origin</a>.
       <li>Return <a>success</a> with data `null`.</li>
     </ol>
     <div class="example">
-	  To set permission for <code>{name: {{"midi"}}, sysex: true}</code> of the
-	  <a>current browsing context</a> of the <a>session</a> with ID 23 to
-	  "`granted`", the <a>local end</a> would POST to
+      To set permission for <code>{name: {{"midi"}}, sysex: true}</code> of the
+      <a>current browsing context</a> of the <a>session</a> with ID 23 to
+      "`granted`", the <a>local end</a> would POST to
       `/session/23/permissions/set` with the body:
 
       <pre class="lang-json">
