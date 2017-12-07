@@ -1121,32 +1121,32 @@ spec: webidl
     <ol>
       <li>Let |permissionDesc| be the result of <a>getting the property</a>
       "`descriptor`" from the |parameters| argument.</li>
-      <li>If |permissionDesc| is not a JSON object, return <a>WebDriver
+      <li>If |permissionDesc| is not a JSON object, return a <a>WebDriver
       error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.</li>
       <li>Let |rootDesc| be the object |permissionDesc| refers to, <a>converted
       to an IDL value</a> of type {{PermissionDescriptor}}. If this throws an
-      exception, return <a>WebDriver error</a> with <a>WebDriver error code</a>
-      <a>invalid argument</a>.</li>
+      exception, return a <a>WebDriver error</a> with <a>WebDriver error
+      code</a> <a>invalid argument</a>.</li>
       <li>Let |typedDescriptor| be the object |permissionDesc| refers to,
       <a>converted to an IDL value</a> of
       <code>|rootDesc|.{{PermissionDescriptor/name}}</code>'s <a>permission
-      descriptor type</a>. If this throws an exception, return <a>WebDriver
+      descriptor type</a>. If this throws an exception, return a <a>WebDriver
       error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.</li>
       <li>Let |settings| be the <a>environment settings object</a> of the
       <a>current browsing context</a>'s <a>active document</a>.</li>
       <li>If |settings| is a <a>non-secure context</a> and
       <code>|rootDesc|.{{PermissionDescriptor/name}}</code> isn't <a>allowed in
-      non-secure contexts</a>, return <a>WebDriver error</a> with <a>WebDriver
-      error code</a> <a>invalid argument</a>.</li>
+      non-secure contexts</a>, return a <a>WebDriver error</a> with
+      <a>WebDriver error code</a> <a>invalid argument</a>.</li>
       <li>Let |state| be the result of <a>getting the property</a> "`state`"
       from the |parameters| argument.</li>
       <li>If |state| is neither "`granted`", "`prompt`", nor "`denied`", return
-      <a>WebDriver error</a> with <a>WebDriver error code</a> <a>invalid
+      a <a>WebDriver error</a> with <a>WebDriver error code</a> <a>invalid
       argument</a>.</li>
       <li>Let |oneRealm| be the result of <a>getting the property</a>
       "`oneRealm`" from the |parameters| argument.</a></li>
       <li>If |oneRealm| is `undefined`, let |oneRealm| be false.</li>
-      <li>If |oneRealm| is neither true nor false, return <a>WebDriver
+      <li>If |oneRealm| is neither true nor false, return a <a>WebDriver
       error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.</li>
       <li>Interpret the value of |state| as <a>new information about the user's
       intent</a>. If |oneRealm| is true, this information applies only to the
