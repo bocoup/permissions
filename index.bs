@@ -67,6 +67,9 @@ spec: html
         text: in parallel
         text: origin; for: /
         text: queue a task
+spec: infra
+    type: dfn
+        text: list
 spec: ui-events
     type: dfn
         text: user agent
@@ -1145,11 +1148,22 @@ spec: webidl
         <code>|rootDesc|.{{PermissionDescriptor/name}}</code> isn't <a>allowed
         in non-secure contexts</a>, return a <a>WebDriver error</a> with
         <a>WebDriver error code</a> <a>invalid argument</a>.</li>
-      <li>Interpret |parameters|.{{PermissionSetParameters/state}} as <a>new
-        information about the user's intent</a>. If
-        |parameters|.{{PermissionSetParameters/oneRealm}} is true, this
-        information applies only to the <a>current realm</a>. Otherwise, this
-        information applies to other <a>realms</a> with the <a>same origin</a>.
+      <li>If |parameters|.{{PermissionSetParameters/oneRealm}} is true, let
+        |targets| be a <a>list</a> whose sole member is |settings|.</li>
+      <li>Otherwise, let |targets| be a <a>list</a> containing all
+        <a>environment settings objects</a> whose [=environment settings
+        object/origin=] is the <a lt="same origin">same</a> as the
+        [=environment settings object/origin=] of |settings|.</li>
+      </li>
+      <li>
+        For each <a>environment settings object</a> |target| in |targets|:
+        <ol>
+          <li>Interpret |parameters|.{{PermissionSetParameters/state}} as if it
+            were the result of an invocation of <a>permission state</a> for
+            |typedDescriptor| with the argument |target| made at this
+            moment.</li>
+        </ol>
+      </li>
       <li>Return <a>success</a> with data `null`.</li>
     </ol>
     <div class="example">
