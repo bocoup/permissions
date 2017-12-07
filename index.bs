@@ -1132,7 +1132,8 @@ spec: webidl
       <code>|rootDesc|.{{PermissionDescriptor/name}}</code>'s <a>permission
       descriptor type</a>. If this throws an exception, return <a>WebDriver
       error</a> with <a>WebDriver error code</a> <a>invalid argument</a>.</li>
-      <li>Let |settings| be the <a>current settings object</a>.</li>
+      <li>Let |settings| be the <a>environment settings object</a> of the
+      <a>current browsing context</a>'s <a>active document</a>.</li>
       <li>If |settings| is a <a>non-secure context</a> and
       <code>|rootDesc|.{{PermissionDescriptor/name}}</code> isn't <a>allowed in
       non-secure contexts</a>, return <a>WebDriver error</a> with <a>WebDriver
