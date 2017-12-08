@@ -1143,6 +1143,16 @@ spec: webidl
         descriptor type</a>. If this throws an exception, return a <a>WebDriver
         error</a> with <a>WebDriver error code</a> <a>invalid
         argument</a>.</li>
+      <li>If |parameters|.{{PermissionSetParameters/state}} is an inappropriate
+        <a>permission state</a> for any implementation-defined reason, return a
+        <a>WebDriver error</a> with <a>WebDriver error code</a> <a>invalid
+        argument</a>.
+        <p class="note">
+          For example, <a>user agents</a> that define the {{"midi"}}
+          <a>feature</a> as "always on" may choose to reject command
+          to set the <a>permission state</a> to {{"denied"}} at this step.
+        </p>
+      </li>
       <li>Let |settings| be the <a>environment settings object</a> of the
         <a>current browsing context</a>'s <a>active document</a>.</li>
       <li>If |settings| is a <a>non-secure context</a> and
