@@ -49,7 +49,6 @@ spec: webdriver; urlPrefix: https://w3c.github.io/webdriver/webdriver-spec.html#
         text: extension command; url: dfn-extension-commands
         text: extension command name; url: dfn-extension-command-name
         text: extension command prefix; url: dfn-extension-command-prefix
-        text: getting the property; url: dfn-getting-a-property
         text: invalid argument; url: dfn-invalid-argument
         text: local end; url: dfn-local-end
         text: remote end steps; url: dfn-remote-end-steps
