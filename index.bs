@@ -115,7 +115,12 @@ spec: webidl
       The UA may collect information about a user's intentions in any way its
       authors believe is appropriate. This information can come from explicit
       user action, aggregate behavior of both the relevant user and other users,
-      or other sources this specification hasn't anticipated.
+      or other sources this specification hasn't anticipated. Whenever this
+      occurs, the UA must perform the following steps:
+
+      <ol>
+        <li></li>
+      </ol>
     </dd>
 
     <dt><dfn export local-lt="feature">Powerful feature</dfn></dt>
@@ -195,6 +200,12 @@ spec: webidl
     <code>|descriptor|.{{PermissionDescriptor/name}}</code>.
   </p>
 
+  <p>
+    Each environment settings object has an associated <dfn>permissions
+    cache</dfn> which is a <a>map</a> where the keys are
+    {{PermissionDescriptor}}s and the values are strings.
+  </p>
+
   <section>
     <h3 id="reading-current-states">Reading the current permission state</h3>
     <div algorithm>
@@ -212,6 +223,12 @@ spec: webidl
           If |settings| is a <a>non-secure context</a>
           and <code>|descriptor|.{{PermissionDescriptor/name}}</code> isn't
           <a>allowed in non-secure contexts</a>, then return {{"denied"}}.
+        </li>
+        <li>
+          Let |cache| be the <a>permissions cache</a> of |settings|.
+        </li>
+        <li>
+          If |cache|[|descriptor|] [=map/exists=], return |cache|[|descriptor|].
         </li>
         <li>
           If there was a previous invocation of this algorithm with the same
